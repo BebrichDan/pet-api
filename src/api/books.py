@@ -1,36 +1,24 @@
 from fastapi import APIRouter
-from sqlalchemy import select   #?
 
 from src.api.dependencies import SessionDep
-from src.models.books import BookModel
 from src.schemas.books import BookGetSchema, BookSchema
+from src.services.book_service import BookService
 from src.database import Base, engine
 
 
 router = APIRouter()
 
 @router.post("/setup")
-async def setup_database():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
-    return {"success": True}
+async def setup_database(session: SessionDep):
+    service = BookService(session)
+    return await service.setup_database(Base, engine)
 
 @router.post("/books")
 async def add_book(book: BookSchema, session: SessionDep) -> BookSchema:
-    new_book = BookModel(
-        title=book.title,
-        author=book.author,
-    )
-    session.add(new_book)
-    await session.commit()
-    return book
+    service = BookService(session)
+    return await service.add_book(book)
 
 @router.get("/books")
 async def get_books(session: SessionDep) -> list[BookGetSchema]:
-    query = select(BookModel)
-    result = await session.execute(query)
-
-    books = result.scalars().all() 
-    print(f"{books=}")
-    return books
+    service = BookService(session)
+    return await service.get_books()
