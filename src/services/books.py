@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.models.books import BookModel
-from src.schemas.books import BookPatchSchema, BookSchema, BookGetSchema, BookUpdateSchema
+from src.schemas.books import BookPatchSchema, BookSchema, BookUpdateSchema
 
 
 class BookService:  # -> ORM

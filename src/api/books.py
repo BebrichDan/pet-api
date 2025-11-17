@@ -1,12 +1,16 @@
 from fastapi import APIRouter, HTTPException
 
 from src.api.dependencies import SessionDep
-from src.schemas.books import BookGetSchema, BookPatchSchema, BookSchema, BookUpdateSchema
-from src.services.book_service import BookService
 from src.database import Base, engine
+from src.schemas.books import (
+    BookGetSchema,
+    BookPatchSchema,
+    BookSchema,
+    BookUpdateSchema,
+)
+from src.services.books import BookService
 
-
-router = APIRouter()
+router = APIRouter(tags=["books"])
 
 @router.post("/setup")
 async def setup_database(session: SessionDep):
@@ -45,7 +49,11 @@ async def put_book(book: BookUpdateSchema, session: SessionDep):
     return await service.put_book(book)
 
 @router.patch("/books/{book_id}", response_model=BookGetSchema)
-async def update_book(book_id: int, book: BookPatchSchema, session: SessionDep):
+async def update_book(
+    book_id: int,
+    book: BookPatchSchema,
+    session: SessionDep
+    ):
     service = BookService(session)
     updated = await service.update_book(book_id, book)
     if not updated:

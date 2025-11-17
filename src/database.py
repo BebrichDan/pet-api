@@ -1,4 +1,4 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 SQL_LITE = "sqlite+aiosqlite:///mydb.db"
@@ -11,10 +11,9 @@ engine = create_async_engine(
 
 new_async_session = async_sessionmaker(engine, expire_on_commit=False)
 
-
 async def get_session():
     async with new_async_session() as session:
         yield session
 
-class Base(DeclarativeBase):         #??
+class Base(DeclarativeBase):
     pass
