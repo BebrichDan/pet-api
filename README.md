@@ -4,19 +4,7 @@
 
 ## Struct:
 ```
-├── arithmetic
-│   ├── s21_arithmetic.c
-│   ├── s21_arithmetic.h
-│   ├── s21_calc_complements.c
-│   ├── s21_determinant.c
-│   ├── s21_mult_matrix.c
-│   ├── s21_mult_number.c
-│   ├── s21_sub_matrix.c
-│   └── s21_sum_matrix.c
-├── coverage
-│   ├── coverage.info
 .
-
 ├── env
 ├── poetry.lock
 ├── pyproject.toml
